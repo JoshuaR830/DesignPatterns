@@ -13,6 +13,8 @@ namespace DesignPatternsSampleApplication
     public class GameBoard
     {
         private PrimaryPlayer _player;
+
+        private EnemyFactory _enemyFactory = new EnemyFactory(1);
         
         /// <summary>
         /// Get the instance of the primary player
@@ -48,12 +50,12 @@ namespace DesignPatternsSampleApplication
             {
                 // The factory will return the correct instance of the enemy for the level we are at
                 // Don't make instances of the enemies here - use the factory
-                enemies.Add(EnemyFactory.SpawnZombie(currentLevel));
+                enemies.Add(_enemyFactory.SpawnZombie(currentLevel));
             }
             
             for (int i = 0; i < 3; i++)
             {
-                enemies.Add(EnemyFactory.SpawnWerewolf(currentLevel));
+                enemies.Add(_enemyFactory.SpawnWerewolf(currentLevel));
             }
 
             foreach (var enemy in enemies)
