@@ -74,7 +74,7 @@ namespace DesignPatternsSampleApplication
 
                 if (enemy.Health <= 0)
                 {
-                    enemy.ReturnToObjectPool(_enemyFactory, enemy);
+                    enemy.ReturnToObjectPool(_enemyFactory);
                 }
             }
         }

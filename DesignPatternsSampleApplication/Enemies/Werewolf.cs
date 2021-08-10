@@ -39,9 +39,9 @@ namespace DesignPatternsSampleApplication.Enemies
             Console.WriteLine($"Werewolf is defending {player.Name}");
         }
 
-        public void ReturnToObjectPool(EnemyFactory factory, IEnemy enemy)
+        public void ReturnToObjectPool(EnemyFactory factory)
         {
-            factory.ReclaimWarewolf((Werewolf) enemy);
+            factory.ReclaimWarewolf(this);
         }
     }
 }

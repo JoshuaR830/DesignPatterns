@@ -14,6 +14,6 @@
         
         void Attack(PrimaryPlayer player);
         void Defend(PrimaryPlayer player);
-        void ReturnToObjectPool(EnemyFactory factory, IEnemy enemy);
+        void ReturnToObjectPool(EnemyFactory factory);
     }
 }

@@ -123,12 +123,12 @@ namespace DesignPatternsSampleApplication.Enemies
             };
         }
 
-        public void ReclaimGiant(Giant werewolf)
+        public void ReclaimGiant(Giant giant)
         {
             (int health, int level) = GetGiantStatus(_areaLevel);
-            werewolf.Health = health;
+            giant.Health = health;
             
-            _giantsPool.Push(werewolf);
+            _giantsPool.Push(giant);
             Console.WriteLine("Reclaimed Giant");
         }
 
