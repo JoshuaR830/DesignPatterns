@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using DesignPatternsSampleApplication.Enemies;
+using DesignPatternsSampleApplication.Weapons;
 
 namespace DesignPatternsSampleApplication
 {
@@ -19,6 +20,9 @@ namespace DesignPatternsSampleApplication
         public GameBoard()
         {
             _player = PrimaryPlayer.Instance;
+            
+            // Could be any weapon implementing IWeapon
+            _player.Weapon = new Sword(12, 8);
         }
 
         /// <summary>
@@ -55,6 +59,16 @@ namespace DesignPatternsSampleApplication
             foreach (var enemy in enemies)
             {
                 Console.WriteLine(enemy.GetType());
+                
+                // Simulate a battle until someone dies
+                while (enemy.Health > 0 || _player.Health > 0)
+                {   
+                    // Loose coupling in action - player holds weapon of any type, only takes an enemy
+                    // Any type of weapon can damage any type of enemy
+                    // Depends on abstractions and not concrete implementations
+                    _player.Weapon.Use(enemy);
+                    enemy.Attack(_player);
+                }
             }
         }
     }

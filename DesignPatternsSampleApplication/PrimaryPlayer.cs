@@ -1,4 +1,6 @@
-﻿namespace DesignPatternsSampleApplication
+﻿using DesignPatternsSampleApplication.Weapons;
+
+namespace DesignPatternsSampleApplication
 {
     /// This is a singleton
     /// Could be seen to violate the Single Responsibility principle - has to create itself - extra responsibilities
@@ -11,6 +13,12 @@
         /// Use a getter to access it publicly
         /// </summary>
         private static readonly PrimaryPlayer _instance;
+        
+        /// <summary>
+        /// Use the interface to achieve loose coupling
+        /// Just need to initialise a new weapon
+        /// </summary>
+        public IWeapon Weapon { get; set; }
 
         /// <summary>
         /// Used before first use of a class
@@ -24,13 +32,17 @@
             _instance = new PrimaryPlayer()
             {
                 Name = "Joshua",
-                Level = 1
+                Level = 1,
+                Armour = 25,
+                Health = 100
             };
         }
         
         
         public string Name { get; set; }
         public int Level { get; set; }
+        public int Armour { get; set; }
+        public int Health { get; set; }
 
         /// Private constructor - prevent it from being instantiated
         /// But now no access to the player at all

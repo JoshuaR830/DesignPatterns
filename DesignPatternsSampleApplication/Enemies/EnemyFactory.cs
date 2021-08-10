@@ -35,15 +35,15 @@
         {
             if (areaLevel < 3)
             {
-                return new Zombie(66, 2);
+                return new Zombie(66, 2, 15);
             }
             else if (areaLevel < 10)
             {
-                return new Zombie(66, 5);
+                return new Zombie(66, 5, 15);
             }
             else
             {
-                return new Zombie(100, 8);
+                return new Zombie(100, 8, 15);
             }
         }
     }
