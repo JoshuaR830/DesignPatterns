@@ -6,9 +6,8 @@ namespace DesignPatternsSampleApplication
     {
         static void Main(string[] args)
         {
-            PrimaryPlayer player = PrimaryPlayer.Instance;
-            Console.WriteLine($"{player.Name} - lvl {player.Level}");
-            Console.WriteLine("Hello World!");
+            GameBoard board = new GameBoard();
+            board.PlayArea(1);
         }
     }
 }
