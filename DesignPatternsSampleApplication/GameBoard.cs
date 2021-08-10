@@ -63,13 +63,18 @@ namespace DesignPatternsSampleApplication
                 Console.WriteLine(enemy.GetType());
                 
                 // Simulate a battle until someone dies
-                while (enemy.Health > 0 || _player.Health > 0)
+                while (enemy.Health > 0 && _player.Health > 0)
                 {   
                     // Loose coupling in action - player holds weapon of any type, only takes an enemy
                     // Any type of weapon can damage any type of enemy
                     // Depends on abstractions and not concrete implementations
                     _player.Weapon.Use(enemy);
                     enemy.Attack(_player);
+                }
+
+                if (enemy.Health <= 0)
+                {
+                    enemy.ReturnToObjectPool(_enemyFactory, enemy);
                 }
             }
         }

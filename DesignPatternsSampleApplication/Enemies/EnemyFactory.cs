@@ -87,6 +87,7 @@ namespace DesignPatternsSampleApplication.Enemies
             
             // Reclaimed by the object pool
             _zombiesPool.Push(zombie);
+            Console.WriteLine("Reclaimed Zombie");
         }
         
         private void PreLoadGiants()
@@ -128,6 +129,7 @@ namespace DesignPatternsSampleApplication.Enemies
             werewolf.Health = health;
             
             _giantsPool.Push(werewolf);
+            Console.WriteLine("Reclaimed Giant");
         }
 
         private void PreLoadWerewolves()
@@ -155,12 +157,13 @@ namespace DesignPatternsSampleApplication.Enemies
             
         }
         
-        public void ReclaimGiant(Werewolf werewolf)
+        public void ReclaimWarewolf(Werewolf werewolf)
         {
             (int health, int level) = GetWerewolfStatus(_areaLevel);
             werewolf.Health = health;
             
             _werewolvesPool.Push(werewolf);
+            Console.WriteLine("Reclaimed Werewolf");
         }
 
         private (int health, int level) GetWerewolfStatus(int areaLevel)
@@ -182,6 +185,7 @@ namespace DesignPatternsSampleApplication.Enemies
         {
             if (_werewolvesPool.Count > 0)
             {
+                Console.WriteLine("Popped Werewolf");
                 return _werewolvesPool.Pop();
             }
 
@@ -192,6 +196,7 @@ namespace DesignPatternsSampleApplication.Enemies
         {
             if (_giantsPool.Count > 0)
             {
+                Console.WriteLine("Popped Giant");
                 return _giantsPool.Pop();
             }
 
@@ -202,6 +207,7 @@ namespace DesignPatternsSampleApplication.Enemies
         {
             if (_zombiesPool.Count > 0)
             {
+                Console.WriteLine("Popped Zombie");
                 return _zombiesPool.Pop();
             }
 

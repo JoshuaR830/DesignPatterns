@@ -44,5 +44,10 @@ namespace DesignPatternsSampleApplication.Enemies
         {
             Console.WriteLine($"Zombie defending {player.Name}");
         }
+
+        public void ReturnToObjectPool(EnemyFactory factory, IEnemy enemy)
+        {
+            factory.ReclaimZombie((Zombie) enemy);
+        }
     }
 }

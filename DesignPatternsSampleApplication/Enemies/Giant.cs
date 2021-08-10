@@ -38,5 +38,10 @@ namespace DesignPatternsSampleApplication.Enemies
         {
             Console.WriteLine($"Giant is defending {player.Name}");
         }
+
+        public void ReturnToObjectPool(EnemyFactory factory, IEnemy enemy)
+        {
+            factory.ReclaimGiant((Giant) enemy);
+        }
     }
 }
