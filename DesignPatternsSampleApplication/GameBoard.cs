@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Common;
+using DesignPatternsSampleApplication.Adapters;
 using DesignPatternsSampleApplication.Enemies;
 using DesignPatternsSampleApplication.Weapons;
+using SpaceWeapons;
 
 namespace DesignPatternsSampleApplication
 {
@@ -44,7 +47,18 @@ namespace DesignPatternsSampleApplication
                 Console.WriteLine("Ready to start level 1");
                 Console.ReadKey();
                 PlayFirstLevel();
+            } else if (level == -1)
+            {
+                Console.WriteLine("Play special level?");
+                Console.ReadKey();
+                PlaySpecialLevel();
             }
+        }
+
+        private void PlaySpecialLevel()
+        {
+            // Take a new instance of the weapon and pass it to the adapter to convert it
+            _player.Weapon = new WeaponAdapter(new Blaster(20, 15, 15));
         }
 
         private void PlayFirstLevel()
