@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using DesignPatternsSampleApplication.Enemies;
 using DesignPatternsSampleApplication.Proxies;
+using DesignPatternsSampleApplication.Strategies;
 using DesignPatternsSampleApplication.Weapons;
 
 namespace DesignPatternsSampleApplication.Facades
@@ -38,26 +40,7 @@ namespace DesignPatternsSampleApplication.Facades
             LoadZombies(areaLevel);
             LoadWerewolves(areaLevel);
             LoadGiants(areaLevel);
-            
-            foreach (var enemy in _enemies)
-            {
-                Console.WriteLine(enemy.GetType());
-                
-                // Simulate a battle until someone dies
-                while (enemy.Health > 0 && _player.Health > 0)
-                {   
-                    // Loose coupling in action - player holds weapon of any type, only takes an enemy
-                    // Any type of weapon can damage any type of enemy
-                    // Depends on abstractions and not concrete implementations
-                    _player.Weapon.Use(enemy);
-                    enemy.Attack(_player);
-                }
-
-                if (enemy.Health <= 0)
-                {
-                    enemy.ReturnToObjectPool(_factory);
-                }
-            }
+            StartTurns();
         }
         
         private void ConfigurePlayerWeapon()
@@ -152,6 +135,46 @@ namespace DesignPatternsSampleApplication.Facades
                 // Don't make instances of the enemies here - use the factory
                 _enemies.Add(_factory.SpawnGiant(areaLevel));
             }
+        }
+
+        private void StartTurns()
+        {
+            IEnemy currentEnemy = null;
+
+            while (true)
+            {
+                if (currentEnemy == null)
+                {
+                    if (_enemies.Count > 0)
+                    {
+                        currentEnemy = _enemies[0];
+                            _enemies.RemoveAt(0);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"You completed level {_areaLevel}");
+                        break;
+                    }
+                }
+                
+                // Player turn
+                // _player.Weapon.Use(currentEnemy);
+                
+                // Enemy turn
+                int damage = currentEnemy.Attack(_player);
+                
+                // Select the appropriate strategy based on conditions
+                if (_player.Health < 20)
+                {
+                    new CriticalIndicator().NotifyAboutDamage(_player.Health, damage);
+                }
+                else
+                {
+                    new RegularDamageIndicator().NotifyAboutDamage(_player.Health, damage);
+                }
+                Thread.Sleep(500);
+            }
+            
         }
     }
 }

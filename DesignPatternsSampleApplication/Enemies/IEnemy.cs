@@ -12,7 +12,7 @@
         bool IsParalyzed { get; set; }
         int RoundsParalyzedFor { get; set; }
         
-        void Attack(PrimaryPlayer player);
+        int Attack(PrimaryPlayer player);
         void Defend(PrimaryPlayer player);
         void ReturnToObjectPool(EnemyFactory factory);
     }

@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Common;
+using DesignPatternsSampleApplication.Facades;
 
 namespace DesignPatternsSampleApplication
 {
@@ -10,14 +11,13 @@ namespace DesignPatternsSampleApplication
     {
         static void Main(string[] args)
         {
+            PrimaryPlayer player = PrimaryPlayer.Instance;
+            
             try
             {
-                TestDecorators();
                 TestApiConnection().Wait();
-                GameBoard board = new GameBoard();
-                board.PlayArea(1).Wait();
-
-                TestComposite();
+                GameboardFacade board = new GameboardFacade();
+                board.Play(player, 1).Wait();
             }
             catch (Exception e)
             {
