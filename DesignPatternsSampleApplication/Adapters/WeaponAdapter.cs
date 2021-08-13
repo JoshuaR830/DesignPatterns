@@ -1,6 +1,6 @@
 ﻿using DesignPatternsSampleApplication.Enemies;
 using DesignPatternsSampleApplication.Weapons;
-using SpaceWeapons;
+using NiceSpaceWeapons;
 
 namespace DesignPatternsSampleApplication.Adapters
 {

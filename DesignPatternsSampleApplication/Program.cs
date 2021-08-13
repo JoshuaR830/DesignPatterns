@@ -13,9 +13,9 @@ namespace DesignPatternsSampleApplication
             try
             {
                 TestDecorators();
-                // TestApiConnection().Wait();
-                // GameBoard board = new GameBoard();
-                // board.PlayArea(1).Wait();
+                TestApiConnection().Wait();
+                GameBoard board = new GameBoard();
+                board.PlayArea(1).Wait();
             }
             catch (Exception e)
             {

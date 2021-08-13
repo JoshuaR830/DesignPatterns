@@ -1,4 +1,4 @@
-﻿namespace SpaceWeapons
+﻿namespace NiceSpaceWeapons
 {
     public interface ISpaceWeapon
     {

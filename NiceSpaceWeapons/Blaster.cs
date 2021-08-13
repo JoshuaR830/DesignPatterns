@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SpaceWeapons
+namespace NiceSpaceWeapons
 {
     public class Blaster : ISpaceWeapon
     {
