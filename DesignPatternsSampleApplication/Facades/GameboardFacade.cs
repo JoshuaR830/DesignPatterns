@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using DesignPatternsSampleApplication.Commands;
 using DesignPatternsSampleApplication.Enemies;
 using DesignPatternsSampleApplication.Observers;
 using DesignPatternsSampleApplication.Proxies;
@@ -163,17 +165,30 @@ namespace DesignPatternsSampleApplication.Facades
                         break;
                     }
                 }
-                
-                // Player turn
-                // _player.Weapon.Use(currentEnemy);
-                
-                // Enemy turn
-                int damage = currentEnemy.Attack(_player);
-                _player.Hit(damage);
 
-                Thread.Sleep(500);
+                var commands = GetCommands(currentEnemy);
+                foreach (var command in commands) 
+                {
+                    command.Execute();
+
+                    if (_player.Health <= 0 || currentEnemy.Health <= 0)
+                    {
+                        break;
+                    }
+                }
             }
-            
+        }
+        private IEnumerable<ICommand> GetCommands(IEnemy enemy)
+        {
+            List<ICommand> commands = new List<ICommand>();
+            commands.Add(new PlayerEnemyBattleCommand(_player, enemy));
+
+            foreach (var card in _player.Cards)
+            {
+                commands.Add(new CardEnemyBattleCommand(card, enemy));
+            }
+
+            return commands;
         }
     }
 }
