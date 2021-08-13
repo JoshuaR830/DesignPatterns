@@ -1,4 +1,5 @@
-﻿using DesignPatternsSampleApplication.Weapons;
+﻿using Common;
+using DesignPatternsSampleApplication.Weapons;
 
 namespace DesignPatternsSampleApplication
 {
@@ -44,6 +45,8 @@ namespace DesignPatternsSampleApplication
         public int Armour { get; set; }
         public int Health { get; set; }
 
+        public Card[] Cards { get; set; }
+        
         /// Private constructor - prevent it from being instantiated
         /// But now no access to the player at all
         private PrimaryPlayer()

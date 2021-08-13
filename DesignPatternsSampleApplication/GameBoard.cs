@@ -1,5 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Text.Json;
+using System.Threading.Tasks;
+using Common;
 using DesignPatternsSampleApplication.Enemies;
 using DesignPatternsSampleApplication.Weapons;
 
@@ -31,10 +36,13 @@ namespace DesignPatternsSampleApplication
         /// Spawn enemies depending on the level
         /// </summary>
         /// <param name="level"></param>
-        public void PlayArea(int level)
+        public async Task PlayArea(int level)
         {
             if (level == 1)
             {
+                _player.Cards = (await FetchCards()).ToArray();
+                Console.WriteLine("Ready to start level 1");
+                Console.ReadKey();
                 PlayFirstLevel();
             }
         }
@@ -77,6 +85,16 @@ namespace DesignPatternsSampleApplication
                     enemy.ReturnToObjectPool(_enemyFactory);
                 }
             }
+        }
+        
+        private async Task<IEnumerable<Card>> FetchCards()
+        {
+            using (var http = new HttpClient())
+            {
+                var cardJson = await http.GetStringAsync("http://localhost:5000/api/cards");
+
+                return JsonSerializer.Deserialize<IEnumerable<Card>>(cardJson);
+            };
         }
     }
 }
