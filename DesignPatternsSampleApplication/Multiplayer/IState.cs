@@ -1,7 +1,8 @@
 ﻿namespace DesignPatternsSampleApplication.Multiplayer
 {
-    public class IState
+    public interface IState
     {
-        
+        void Expire();
+        void Pay();
     }
 }
