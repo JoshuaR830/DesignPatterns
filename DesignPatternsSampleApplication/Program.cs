@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Common;
 
 namespace DesignPatternsSampleApplication
 {
@@ -11,9 +12,10 @@ namespace DesignPatternsSampleApplication
         {
             try
             {
-                TestApiConnection().Wait();
-                GameBoard board = new GameBoard();
-                board.PlayArea(1).Wait();
+                TestDecorators();
+                // TestApiConnection().Wait();
+                // GameBoard board = new GameBoard();
+                // board.PlayArea(1).Wait();
             }
             catch (Exception e)
             {
@@ -59,6 +61,21 @@ namespace DesignPatternsSampleApplication
                 
                 throw new Exception("Failed to connect to server");
             }
+        }
+
+        private static void TestDecorators()
+        {
+            Card soldier = new Card("Soldier", 25, 20);
+            
+            // Always assign value to the soldier object - the decorators are also cards
+            // Caller doesn't know it has been wrapped - just appears as the soldier class
+            // Can't see that it is a chain of decorators
+            soldier = new AttackDecorator(soldier, "Sword", 15);
+            soldier = new AttackDecorator(soldier, "Amulet", 5);
+            soldier = new DefenceDecorator(soldier, "Helmet", 10);
+            soldier = new DefenceDecorator(soldier, "Heavy Armour", 45);
+
+            Console.WriteLine($"Final stats: {soldier.Attack} / {soldier.Defence}");
         }
     }
 }
