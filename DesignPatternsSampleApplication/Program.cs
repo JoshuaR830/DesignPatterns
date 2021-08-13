@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Common;
+using DesignPatternsSampleApplication.Battlefields;
 using DesignPatternsSampleApplication.Facades;
 
 namespace DesignPatternsSampleApplication
@@ -11,20 +12,29 @@ namespace DesignPatternsSampleApplication
     {
         static void Main(string[] args)
         {
-            PrimaryPlayer player = PrimaryPlayer.Instance;
-            
-            try
-            {
-                TestApiConnection().Wait();
-                GameboardFacade board = new GameboardFacade();
-                board.Play(player, 1).Wait();
-            }
-            catch (Exception e)
-            {
-                // If all 20 fail
-                Console.WriteLine("Failed to initialize game");
-                Console.ReadKey();
-            }
+            // PrimaryPlayer player = PrimaryPlayer.Instance;
+            //
+            // try
+            // {
+            //     TestApiConnection().Wait();
+            //     GameboardFacade board = new GameboardFacade();
+            //     board.Play(player, 1).Wait();
+            // }
+            // catch (Exception e)
+            // {
+            //     // If all 20 fail
+            //     Console.WriteLine("Failed to initialize game");
+            //     Console.ReadKey();
+            // }
+
+            TestBattlefields();
+        }
+
+        private static void TestBattlefields()
+        {
+            // Easy to change the values based on the template
+            BattlefieldTemplate battlefield = new SnowyBattlefield();
+            Console.WriteLine(battlefield.Describe());
         }
 
         private static async Task TestApiConnection()
