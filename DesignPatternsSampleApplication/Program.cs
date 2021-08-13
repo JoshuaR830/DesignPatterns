@@ -16,6 +16,8 @@ namespace DesignPatternsSampleApplication
                 TestApiConnection().Wait();
                 GameBoard board = new GameBoard();
                 board.PlayArea(1).Wait();
+
+                TestComposite();
             }
             catch (Exception e)
             {
@@ -76,6 +78,28 @@ namespace DesignPatternsSampleApplication
             soldier = new DefenceDecorator(soldier, "Heavy Armour", 45);
 
             Console.WriteLine($"Final stats: {soldier.Attack} / {soldier.Defence}");
+        }
+
+        private static void TestComposite()
+        {
+            CardDeck deck = new CardDeck();
+            CardDeck attackDeck = new CardDeck();
+            CardDeck defenceDeck = new CardDeck();
+            
+            attackDeck.Add(new Card("Basic Infantry Unit", 12, 15));
+            attackDeck.Add(new Card("Advanced Infantry Unit", 24, 18));
+            attackDeck.Add(new Card("Cavalry Unit", 30, 22));
+            
+            defenceDeck.Add(new Card("Wooden Shield", 0, 4));
+            defenceDeck.Add(new Card("Iron Shield", 0, 9));
+            defenceDeck.Add(new Card("Shining Royal Armour", 0, 40));
+            
+            deck.Add(attackDeck);
+            deck.Add(new Card("Small Beast", 10, 3));
+            deck.Add(new Card("High Elf Rogue", 14, 9));
+            deck.Add(defenceDeck);
+
+            Console.WriteLine(deck.Display());
         }
     }
 }

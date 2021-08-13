@@ -2,7 +2,8 @@
 
 namespace Common
 {
-    public class Card
+    // A Card does not need to implement everything that the ICardComponent
+    public class Card : ICardComponent
     {
         protected string _name;
         protected int _attack;
@@ -42,6 +43,26 @@ namespace Common
             {
                 return _defence;
             }
+        }
+
+        public void Add(ICardComponent component)
+        {
+            throw new System.InvalidOperationException();
+        }
+
+        public ICardComponent Get(int index)
+        {
+            throw new System.InvalidOperationException();
+        }
+
+        public bool Remove(ICardComponent component)
+        {
+            throw new System.InvalidOperationException();
+        }
+
+        public string Display()
+        {
+            return $"{_name}: {_attack} / {_defence}";
         }
     }
 }
