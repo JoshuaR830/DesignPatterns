@@ -44,7 +44,7 @@ namespace Common
         // Issue - we can't add other deck to this card deck - only dealing with cards
         // It can't hold different decks in the same list - we need to have unified access to all cards - recursive way
         // Shouldn't care if it is a card or a deck - unified access - all cards if it is a deck, the individual card if not
-        [Obsolete("THis would not use the composite pattern and would be clunky, do something else instead")]
+        [Obsolete("This would not use the composite pattern and would be clunky, do something else instead")]
         public void AddDeck(CardDeck deck)
         {
             // This is not elegant - that's why we need the composite pattern

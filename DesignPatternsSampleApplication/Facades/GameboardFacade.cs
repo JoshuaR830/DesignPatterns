@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Text.Json;
 using System.Threading.Tasks;
-using Common;
 using DesignPatternsSampleApplication.Enemies;
+using DesignPatternsSampleApplication.Proxies;
 using DesignPatternsSampleApplication.Weapons;
 
 namespace DesignPatternsSampleApplication.Facades
@@ -17,6 +16,12 @@ namespace DesignPatternsSampleApplication.Facades
         private HttpClient _http;
         private EnemyFactory _factory;
         private List<IEnemy> _enemies;
+        private CardsProxy _cardsProxy;
+
+        public GameboardFacade()
+        {
+            _cardsProxy = new CardsProxy();
+        }
         
         // Can have more than one public method in a facade
         // Delegate operation of each level to facade - doesn't need to be in the GameBoard class
@@ -103,11 +108,9 @@ namespace DesignPatternsSampleApplication.Facades
 
         private async Task AddPlayerCards()
         {
-            using (_http = new HttpClient())
-            {
-                var cardJson = await _http.GetStringAsync("http://localhost:5000/api/cards");
-                _player.Cards = (JsonSerializer.Deserialize<IEnumerable<Card>>(cardJson) ?? Array.Empty<Card>()).ToArray();
-            }
+            // Fetching the cards is not the responsibility of the GameBoardFacade - it's responsibility it to prepare the gameboard
+            // So we use proxy
+            _player.Cards = (await _cardsProxy.GetCards()).ToArray();
         }
 
         private void InitialiseEnemyFactory(int areaLevel)
