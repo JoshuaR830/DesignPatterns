@@ -1,4 +1,6 @@
-﻿using Common;
+﻿using System;
+using Common;
+using DesignPatternsSampleApplication.Events;
 using DesignPatternsSampleApplication.Weapons;
 
 namespace DesignPatternsSampleApplication
@@ -38,14 +40,56 @@ namespace DesignPatternsSampleApplication
                 Health = 100
             };
         }
+
+        private int _health;
         
+        // Generic event type that takes a class - implements event args class
+        public int Health
+        {
+            get
+            {
+                return _health;
+            } 
+            private set
+            {
+                int previousHealth = _health;
+                _health = value;
+                _health = Health;
+
+                int damage = previousHealth - _health;
+                
+                // Need to invoke the observer
+                HealthChanged?.Invoke(this, new HealthChangedEventArgs(Health, damage));
+            }
+        }
+        
+        private event EventHandler<HealthChangedEventArgs> HealthChanged;
         
         public string Name { get; set; }
         public int Level { get; set; }
         public int Armour { get; set; }
-        public int Health { get; set; }
+
+        public void Hit(int damage)
+        {
+            Health -= damage;
+        }
 
         public Card[] Cards { get; set; }
+        
+        
+        // Register the observer - follow the guideline set by event handler deligate
+        public void RegisterObserver(EventHandler<HealthChangedEventArgs> observer)
+        {
+            // Overload operator - instead of calling a method +=
+            HealthChanged += observer;
+        }
+
+        // Unregister the observer when done
+        public void UnregisterObserver(EventHandler<HealthChangedEventArgs> observer)
+        {
+            // Overload operator - instead of calling a method -=
+            HealthChanged -= observer;
+        }
         
         /// Private constructor - prevent it from being instantiated
         /// But now no access to the player at all

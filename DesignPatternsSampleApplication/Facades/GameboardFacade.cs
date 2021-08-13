@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using DesignPatternsSampleApplication.Enemies;
+using DesignPatternsSampleApplication.Observers;
 using DesignPatternsSampleApplication.Proxies;
 using DesignPatternsSampleApplication.Strategies;
 using DesignPatternsSampleApplication.Weapons;
@@ -141,6 +142,12 @@ namespace DesignPatternsSampleApplication.Facades
         {
             IEnemy currentEnemy = null;
 
+            var regularObserver = new HealthChangedObserver(new RegularDamageIndicator());
+            var criticalObserver = new HealthChangedObserver(new CriticalIndicator());
+                
+            regularObserver.WatchPlayerHealth(_player);
+            criticalObserver.WatchPlayerHealth(_player);
+            
             while (true)
             {
                 if (currentEnemy == null)
@@ -162,16 +169,8 @@ namespace DesignPatternsSampleApplication.Facades
                 
                 // Enemy turn
                 int damage = currentEnemy.Attack(_player);
-                
-                // Select the appropriate strategy based on conditions
-                if (_player.Health < 20)
-                {
-                    new CriticalIndicator().NotifyAboutDamage(_player.Health, damage);
-                }
-                else
-                {
-                    new RegularDamageIndicator().NotifyAboutDamage(_player.Health, damage);
-                }
+                _player.Hit(damage);
+
                 Thread.Sleep(500);
             }
             
